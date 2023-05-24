@@ -1,3 +1,4 @@
+import animation.Animator;
 import utility.Utility;
 
 public class Main
@@ -11,10 +12,10 @@ public class Main
 		Utility.clearConsole(50, 500, 0, 0);
 		Utility.writePos("Please adjust your console window until you can see the box fully", 0, 0);
 		Utility.drawBox(20, 76, top-1, left-2);
-		Game g = new Game(top, left);
-		g.testAnimations();
-		g.setAnimationSpeed(Game.FAST);
-		g.testAnimations();
+		Animator anim = new Animator(top, left);
+		anim.testAnimations();
+		anim.setAnimationSpeed(Animator.FAST);
+		anim.testAnimations();
 		Utility.setWritePos(40, left);
 	}
 }
