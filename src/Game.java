@@ -1,4 +1,5 @@
-import utility.Utility;
+import entities.*;
+import utility.*;
 
 public class Game
 {

@@ -1,6 +1,6 @@
 package entities;
-
 import java.util.ArrayList;
+
 import items.*;
 
 public class Player extends Entity

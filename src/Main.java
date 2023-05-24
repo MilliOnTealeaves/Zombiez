@@ -15,5 +15,6 @@ public class Main
 		g.testAnimations();
 		g.setAnimationSpeed(Game.FAST);
 		g.testAnimations();
+		Utility.setWritePos(40, left);
 	}
 }

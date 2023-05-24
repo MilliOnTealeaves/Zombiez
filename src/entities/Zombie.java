@@ -1,5 +1,4 @@
 package entities;
-
 import utility.Utility;
 
 public class Zombie extends Entity
