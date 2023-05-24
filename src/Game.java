@@ -36,8 +36,8 @@ public class Game
 
 	public void testAnimations()
 	{
-		Zombie z = new Zombie(100, 10, 100);
-		Player p = new Player(100, 10, 100);
+		Zombie z = new Zombie();
+		Player p = new Player();
 		p.addArmor(12);
 		drawHealthBar(z, top+16, left+7);
 		drawHealthBar(p, top+16, left+51);

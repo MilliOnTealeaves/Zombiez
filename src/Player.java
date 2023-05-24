@@ -6,9 +6,9 @@ public class Player extends Entity
 	private int armorPoints;
 	public ArrayList<Item> inventory;
 
-	public Player (int hp, int atk, int spd)
+	public Player ()
 	{
-		super(hp, atk, spd);
+		super(250, 50, 0.25, 100);
 		armor = false;
 		inventory = new ArrayList<>();
 	}

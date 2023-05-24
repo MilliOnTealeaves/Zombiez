@@ -52,4 +52,15 @@ public class Utility
 			writePos("|", i, left+width);
 		}
 	}
+
+	public static int varianceInt(int base, double percentVariance)
+	{
+		return (int)varianceDbl(base, percentVariance);
+	}
+
+	public static double varianceDbl(double base, double percentVariance)
+	{
+		double variance = base * (percentVariance);
+		return base + (Math.random() * variance) - (variance/2);
+	}
 }

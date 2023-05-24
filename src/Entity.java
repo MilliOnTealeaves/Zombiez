@@ -8,13 +8,14 @@ public abstract class Entity
 	public int speed;
 	public boolean alive;
 	
-	public Entity (int hp, int atk, int spd)
+	public Entity (int hp, int atk, double crit, int spd)
 	{
 		maxHealth = hp;
 		health = maxHealth;
 		attack = atk;
 		speed = spd;
-		critRate = 0.2;
+		critRate = crit;
+		
 		alive = true;
 	}
 
