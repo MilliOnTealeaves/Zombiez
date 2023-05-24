@@ -1,11 +1,12 @@
-public class Entity
+public abstract class Entity
 {
-	public int maxHealth;
-	public int health;
-	public int attack;
+	protected final int maxHealth;
+	protected int health;
+	protected int attack;
+	private double critRate;
+
 	public int speed;
 	public boolean alive;
-	public double critRate;
 	
 	public Entity (int hp, int atk, int spd)
 	{
@@ -17,6 +18,14 @@ public class Entity
 		alive = true;
 	}
 
+	public void heal(int amount)
+	{
+		health += amount;
+		if (health > maxHealth) health = maxHealth;
+	}
+
+	public int getHealth() { return health; }
+
 	public int getHealthPercent()
 	{
 		return (int)( (double)health / maxHealth * 100 );
@@ -24,7 +33,9 @@ public class Entity
 
 	public void attack(Entity other)
 	{
-
+		int atk = attack;
+		if(Math.random() < critRate) atk *= 1.5;
+		other.takeDamage(atk);
 	}
 
 	public void takeDamage(int damage)

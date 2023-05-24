@@ -49,8 +49,8 @@ public class Game
 		zombieAttack();
 		Utility.wait(1000);
 
-		z.health -= 53;
-		p.health -= 26;
+		z.takeDamage(13);
+		p.takeDamage(59);
 
 		drawHealthBar(z, top+16, left+7);
 		drawHealthBar(p, top+16, left+51);
@@ -142,6 +142,6 @@ public class Game
 		Utility.drawBox(1, boxWidth, row, col);
 		Utility.writePos(hpBar, row+1, col+1);
 		Utility.clearConsole(1, 4, row+1, col+boxWidth+3);
-		Utility.writePos("" + e.health, row+1, col+boxWidth+3);
+		Utility.writePos("" + e.getHealth(), row+1, col+boxWidth+3);
 	}
 }

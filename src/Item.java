@@ -1,7 +1,4 @@
-public class Item
+public interface Item
 {
-	public Item ()
-	{
-
-	}
+	public abstract void use(Player e);
 }
