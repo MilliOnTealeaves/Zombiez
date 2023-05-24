@@ -5,12 +5,14 @@ public class Player extends Entity
 	public boolean armor;
 	private int armorPoints;
 	public ArrayList<Item> inventory;
+	public ArrayList<Item> upgrades;
 
 	public Player ()
 	{
 		super(250, 50, 0.25, 100);
 		armor = false;
-		inventory = new ArrayList<>();
+		inventory = new ArrayList<Item>();
+		upgrades = new ArrayList<Item>();
 	}
 
 	public void addArmor(int amount)
@@ -19,7 +21,7 @@ public class Player extends Entity
 		armorPoints += amount;
 	}
 
-	public int decrementArmor(int amount)
+	private int hitArmor(int amount)
 	{
 		if(armorPoints >= amount)
 		{
@@ -46,7 +48,7 @@ public class Player extends Entity
 		// if unarmored, deal the damage.
 		if(armor)
 		{
-			damage = decrementArmor(damage);
+			damage = hitArmor(damage);
 		}
 		if (damage != 0)
 		{

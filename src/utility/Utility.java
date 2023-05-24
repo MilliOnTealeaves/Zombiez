@@ -1,3 +1,4 @@
+package utility;
 public class Utility
 {
 	public static void writePos(String contents, int row, int col)

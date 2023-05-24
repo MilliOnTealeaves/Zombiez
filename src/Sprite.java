@@ -1,5 +1,7 @@
 import java.util.*;
 
+import utility.Utility;
+
 public class Sprite
 {
  	private ArrayList<ArrayList<String>> frames;

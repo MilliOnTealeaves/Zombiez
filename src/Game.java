@@ -1,3 +1,5 @@
+import utility.Utility;
+
 public class Game
 {
 	public static final int SLOW = 450;
@@ -26,7 +28,6 @@ public class Game
 		
 		a.player.spriteRow = top;
 		a.player.spriteCol = a.zombie.spriteCol + 40;
-
 	}
 
 	public void setAnimationSpeed(int speed)

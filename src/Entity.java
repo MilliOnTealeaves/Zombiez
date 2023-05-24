@@ -11,11 +11,11 @@ public abstract class Entity
 	public Entity (int hp, int atk, double crit, int spd)
 	{
 		maxHealth = hp;
-		health = maxHealth;
 		attack = atk;
 		speed = spd;
 		critRate = crit;
 		
+		health = maxHealth;
 		alive = true;
 	}
 
