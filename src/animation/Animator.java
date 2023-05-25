@@ -3,19 +3,16 @@ import entities.*;
 import utility.*;
 public class Animator
 {
-	public static final int SLOW = 450;
-	public static final int MID = 180;
-	public static final int FAST = 90;
-	
-	private static int animationSpeed = MID;
+	private int animationSpeed;
 
-	private static Assets a = new Assets();
+	public static Assets a = new Assets();
 
 	private final int top;
 	private final int left;
 	
 	public Animator(int top, int left)
 	{
+		setAnimationSpeed(AnimationSpeed.MID);;
 		this.top = top;
 		this.left = left;
 		
@@ -31,31 +28,45 @@ public class Animator
 		a.player.spriteCol = a.zombie.spriteCol + 40;
 	}
 
-	public void setAnimationSpeed(int speed)
+	public void setAnimationSpeed(AnimationSpeed spd)
 	{
-		if(speed > 0 && speed < 2000) animationSpeed = speed;
+		switch (spd)
+		{
+			case SLOW:
+				animationSpeed = 450;
+				break;
+			case MID:
+				animationSpeed = 180;
+				break;
+			case FAST:
+				animationSpeed = 90;
+				break;
+		}
 	}
 
 	public void testAnimations()
 	{
 		Zombie z = new Zombie();
 		Player p = new Player();
-		p.addArmor(12);
-		drawHealthBar(z, top+16, left+7);
-		drawHealthBar(p, top+16, left+51);
+		
+		drawHealthBar(z, top+16, left+6);
+		drawHealthBar(p, top+16, left+50);
 
 		zombieAttack();
+		z.attack(p);
+		drawHealthBar(z, top+16, left+6);
+		drawHealthBar(p, top+16, left+50);
+
 		Utility.wait(1000);
 
 		a.setPlayerArmor(true);
 		zombieAttack();
 		Utility.wait(1000);
 
-		z.takeDamage(13);
 		p.takeDamage(59);
 
-		drawHealthBar(z, top+16, left+7);
-		drawHealthBar(p, top+16, left+51);
+		drawHealthBar(z, top+16, left+6);
+		drawHealthBar(p, top+16, left+50);
 
 		a.setPlayerArmor(false);
 		playerAttack();
@@ -66,7 +77,7 @@ public class Animator
 	}
 
 	// Animates a player attack on a zombie
-	private void playerAttack()
+	public void playerAttack()
 	{
 		for(int i = 0; i < 5; i++)
 		{
@@ -101,7 +112,7 @@ public class Animator
 	}
 
 	// Animates a player attack on a zombie
-	private void zombieAttack()
+	public void zombieAttack()
 	{
 		for(int i = 0; i < 5; i++)
 		{
@@ -123,27 +134,44 @@ public class Animator
 		a.player.drawSprite(0);
 	}
 
+	public void drawHealthBar(Entity e)
+	{
+		if(e instanceof Player)
+			drawHealthBar(e, top+16, left+50);
+		else
+			drawHealthBar(e, top + 16, left+6);
+	}
+
 	private void drawHealthBar(Entity e, int row, int col)
 	{
+		Utility.clearConsole(2, 24, row, col);
+
 		int boxWidth = 11;
 		int barPercent = e.getHealthPercent();
+
 		char fillChar = '#';
-		if(e instanceof Player p)
+		String health = "";
+		if(e instanceof Player p && p.armor)
 		{
-			if(p.armor)
-			{
-				fillChar = '/';
-			}
+			fillChar = '/';
+			health += "{" + p.getHealth() + "}  " + p.getArmor();
 		}
+		else health += e.getHealth();
+
 		String hpBar = "[";
 		for(int i = 0; i < barPercent/10-2; i++)
 		{
 			hpBar += fillChar;
 		}
-		hpBar += "]";
+
+		if(barPercent > 10) hpBar += "]";
+		else if(barPercent == 0) hpBar = "";
+
 		Utility.drawBox(1, boxWidth, row, col);
 		Utility.writePos(hpBar, row+1, col+1);
 		Utility.clearConsole(1, 4, row+1, col+boxWidth+3);
-		Utility.writePos("" + e.getHealth(), row+1, col+boxWidth+3);
+		Utility.writePos(health, row+1, col+boxWidth+3);
+
+		Utility.writePos("" +e.getName(), row+2, col +2);
 	}
 }

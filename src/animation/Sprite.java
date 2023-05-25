@@ -42,12 +42,7 @@ public class Sprite
 	public void drawSprite(int frame)
 	{
 		if(frame >= frames.size()) return;
-		int row = spriteRow;
-		int col = spriteCol;
-		for(String s : frames.get(frame))
-		{
-			Utility.writePos(s, row++, col);
-		}
+		drawSprite(frame, spriteRow, spriteCol);
 	}
 
 	// Returns a sprite frame as an ArrayList of Strings, where each string

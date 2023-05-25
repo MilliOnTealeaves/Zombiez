@@ -5,9 +5,12 @@ public abstract class Entity
 	protected int health;
 	protected int attack;
 	protected double critRate;
+	protected double critDamage;
 
 	public int speed;
 	public boolean alive;
+
+	protected String name;
 	
 	public Entity (int hp, int atk, double crit, int spd)
 	{
@@ -15,9 +18,17 @@ public abstract class Entity
 		attack = atk;
 		speed = spd;
 		critRate = crit;
+		critDamage = 1.5;
 		
 		health = maxHealth;
 		alive = true;
+
+		name = "";
+	}
+	
+	public String getName()
+	{
+		return name;
 	}
 
 	public void heal(int amount)
@@ -36,7 +47,7 @@ public abstract class Entity
 	public void attack(Entity other)
 	{
 		int atk = attack;
-		if(Math.random() < critRate) atk *= 1.5;
+		if(Math.random() < critRate) atk *= critDamage;
 		other.takeDamage(atk);
 	}
 

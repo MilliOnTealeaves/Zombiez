@@ -3,8 +3,6 @@ import utility.Utility;
 
 public class Zombie extends Entity
 {
-	protected String name;
-
 	public Zombie ()
 	{
 		this(150, 50, 0.2, 100);
@@ -21,23 +19,15 @@ public class Zombie extends Entity
 			// crit rate
 			Utility.varianceDbl(cr, 0.2) ,
 			// speed
-			Utility.varianceInt(spd, 0.2)
+			Utility.varianceInt(spd, 0.5)
 		);
-	}
-
-	public String getName()
-	{
-		return name;
 	}
 
 	public static Zombie getRandomZombie()
 	{
-		int zombieType = (int)Math.random()*10;
+		int zombieType = (int)(Math.random()*11);
 		switch (zombieType)
 		{
-			case 0:
-				return new Zombie();
-
 			case 1:
 			case 2:
 				return new SadLump();
@@ -56,8 +46,12 @@ public class Zombie extends Entity
 
 			case 9: 
 				return new DonMachiavelli();
+			
+			case 10:
+				return new BuffTyler();
+			
+			default: return new Zombie();
 		}
-		return new Zombie();
 	}
 }
 class SadLump extends Zombie
@@ -72,7 +66,7 @@ class KillerZombie extends Zombie
 {
 	protected KillerZombie()
 	{
-		super(100, 80, 0.3, 90);
+		super(100, 80, 0.3, 125);
 		name = "Killer Zombie";
 	}
 }
@@ -96,7 +90,15 @@ class DonMachiavelli extends Zombie
 {
 	protected DonMachiavelli()
 	{
-		super(400, 50, 0.2, 80);
+		super(300, 50, 0.2, 120);
 		name = "Don Machiavelli";
+	}
+}
+class BuffTyler extends Zombie
+{
+	protected BuffTyler()
+	{
+		super(500, 75, 0.3, 80);
+		name = "Buff Tyler";
 	}
 }

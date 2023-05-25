@@ -1,6 +1,7 @@
 package entities;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import animation.*;
 import items.*;
 
 public class Player extends Entity
@@ -9,6 +10,7 @@ public class Player extends Entity
 	private int armorPoints;
 	private ArrayList<Item> inventory;
 	private ArrayList<Upgrade> upgrades;
+	private Assets ass;
 
 	public Player ()
 	{
@@ -16,28 +18,37 @@ public class Player extends Entity
 		armor = false;
 		inventory = new ArrayList<Item>();
 		upgrades = new ArrayList<Upgrade>();
+		ass = Animator.a;
+		name = "You";
+		addArmor(40);
+		critDamage = 1.75;
 	}
+
+	
 
 	public void addArmor(int amount)
 	{
 		armor = true;
 		armorPoints += amount;
+		ass.setPlayerArmor(true);
 	}
 
 	private int hitArmor(int amount)
 	{
+		int output = 0;
 		if(armorPoints >= amount)
 		{
-			armorPoints -= amount;
-			if(armorPoints == 0) armor = false;
-			return 0;
+			armorPoints -= 0.6 * amount;
+			if(armorPoints < 0) armor = false;
 		}
 		else
 		{
-			int overkill = amount - armorPoints;
+			output = amount - armorPoints;
 			armorPoints = 0;
-			return overkill;
+			armor = false;
 		}	
+		ass.setPlayerArmor(armor);
+		return output;
 	}
 
 	public int getArmor()
