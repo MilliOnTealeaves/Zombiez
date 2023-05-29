@@ -1,6 +1,7 @@
 package animation;
 import entities.*;
 import utility.*;
+import items.Location;
 public class Animator
 {
 	private int animationSpeed;
@@ -9,8 +10,11 @@ public class Animator
 
 	private final int top;
 	private final int left;
+	private final int mapVariant;
+	private final int mapSize;
+	private final Location[][] mapRef;
 	
-	public Animator(int top, int left)
+	public Animator(int top, int left, int mapV, Location[][] map)
 	{
 		setAnimationSpeed(AnimationSpeed.MID);;
 		this.top = top;
@@ -20,6 +24,12 @@ public class Animator
 		Utility.left = left;
 		Utility.rows = 16;
 		Utility.cols = 72;
+
+		if(mapV <= a.map.numFrames) mapVariant = mapV;
+		else mapVariant = 0;
+
+		mapSize = map.length;
+		mapRef = map;
 
 		a.zombie.spriteRow = top + 1;
 		a.zombie.spriteCol = left + 3;
@@ -154,7 +164,7 @@ public class Animator
 		if(e instanceof Player p && p.armor)
 		{
 			fillChar = '/';
-			health += "{" + p.getHealth() + "}  " + p.getArmor();
+			health += "{" + p.getHealth() + "}  " + Utility.getColorCode(Style.BOLD, Style.TEXT, Style.CYAN)+ p.getArmor() + Utility.RESET;
 		}
 		else health += e.getHealth();
 
@@ -168,10 +178,29 @@ public class Animator
 		else if(barPercent == 0) hpBar = "";
 
 		Utility.drawBox(1, boxWidth, row, col);
+		Utility.selectTextStyle(Style.UNDERLINE, Style.TEXT, Style.GREEN);
 		Utility.writePos(hpBar, row+1, col+1);
+		Utility.clearTextStyle();
 		Utility.clearConsole(1, 4, row+1, col+boxWidth+3);
 		Utility.writePos(health, row+1, col+boxWidth+3);
 
-		Utility.writePos("" +e.getName(), row+2, col +2);
+		Utility.writePos(e.getName(), row+2, col);
+	}
+
+	public void drawMap()
+	{
+		a.map.spriteRow = top + 1;
+		a.map.spriteCol = left + 4;
+		a.map.drawSprite(mapVariant);
+
+		for(int i = 0; i < mapSize; i++)
+		{
+			for(int j = 0; j < mapRef[0].length; j++)
+			{
+				String print = mapRef[i][j].toString();
+				if(j < mapRef[0].length - 1) print += "|";
+				Utility.writePos( print, top+i+3, left+j*3+6);
+			}
+		}
 	}
 }

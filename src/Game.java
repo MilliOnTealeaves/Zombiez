@@ -1,33 +1,42 @@
 import animation.Animator;
 import entities.*;
+import items.*;
 import utility.*;
+import java.util.Scanner;
 
 public class Game
 {
-	private Location[][] map;
 	private Animator anim;
 	private Player player;
+	private Scanner sc;
 	
+	private Location[][] map;
+	private final int mapVariant;
 
 	public Game(int top, int left)
 	{
-		map = new Location[10][10];
-		anim = new Animator(top+2, left);
-		player = new Player();
-	}
+		map = new Location[6][6];
+		for(int i = 0; i < map.length; i++) 
+			for(int j = 0; j < map[0].length; j++)
+				if(Math.random() > 0.6)
+					map[i][j] = new EncPoint();
+				else
+					map[i][j] = new SupplyPoint();
 
-	private void drawMap()
-	{
-		
+		mapVariant = (int)Math.random()*2;
+		anim = new Animator(top+2, left, mapVariant, map);
+		player = new Player();
+		sc = new Scanner(System.in);
 	}
 
 	public void test()
 	{
-		// anim.testAnimations();
+		// drawMap();
+		sc.nextLine();
 		battle(Zombie.getRandomZombie());
 	}
 
-	public void battle(Entity enemy)
+	private void battle(Entity enemy)
 	{
 		int playerTicks = 0;
 		int zombieTicks = 0;
@@ -59,4 +68,6 @@ public class Game
 		anim.drawHealthBar(enemy);
 		anim.drawHealthBar(player);
 	}
+
+	
 }

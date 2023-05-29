@@ -1,6 +1,8 @@
 package utility;
 public class Utility
 {
+	public static final String RESET = "\033[0m";
+
 	public static void writePos(String contents, int row, int col)
 	{
 		setWritePos(row, col);
@@ -9,7 +11,7 @@ public class Utility
 
 	public static void setWritePos(int row, int col)
 	{
-		System.out.print(String.format("%c[%d;%df", 0x1B, row, col));
+		System.out.printf("%c[%d;%df", 0x1B, row, col);
 	}
 
 	public static void clearConsole(int rows, int cols, int top, int left)
@@ -21,6 +23,22 @@ public class Utility
 			writePos(empy, i, left);
 		}
 	}
+
+	public static String getColorCode(int style, int type, int color)
+	{
+		return String.format("\033[%d;%d%dm", style, type, color);
+	}
+
+	public static void selectTextStyle(int style, int type, int color)
+	{
+		System.out.print(getColorCode(style, type, color));
+	}
+
+	public static void clearTextStyle()
+	{
+		System.out.print(RESET);
+	}
+
 	public static int rows;
 	public static int cols;
 	public static int top;
@@ -28,6 +46,7 @@ public class Utility
 
 	public static void clearConsole()
 	{
+		clearTextStyle();
 		clearConsole(rows, cols, top, left);
 	}
 

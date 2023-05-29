@@ -56,6 +56,7 @@ public class Player extends Entity
 		return armorPoints;
 	}
 
+	@Override
 	public void takeDamage(int damage)
 	{
 		// if armored, subtract from armor. if there is still damage undealt, deal it.

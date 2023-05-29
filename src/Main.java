@@ -1,4 +1,4 @@
-import animation.*;
+// import animation.*;
 import utility.Utility;
 
 public class Main
@@ -16,6 +16,9 @@ public class Main
 		Utility.writePos("Please adjust your console window until you can see the box fully", 0, 0);
 		Utility.drawBox(height, width, top, left);
 		Game g = new Game(top + 1, left + 1);
+		// g.drawMap();
+
+		//  Utility.wait(2000);
 		g.test();
 		
 		Utility.setWritePos(40, left);

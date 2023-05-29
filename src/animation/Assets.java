@@ -12,11 +12,13 @@ public class Assets
 	private static Sprite zombieSprite;
 	private static Sprite portraitSprite;
 	private static Sprite bulletSprite;
+	private static Sprite mapSprite;
 	
 	public Sprite player;
 	public Sprite zombie;
 	public Sprite portrait;
 	public Sprite bullet;
+	public Sprite map;
 	
 	public Assets ()
 	{	
@@ -25,6 +27,7 @@ public class Assets
 		zombie = zombieSprite;
 		portrait = portraitSprite;
 		bullet = bulletSprite;
+		map = mapSprite;
 	}
 
 	public void setPlayerArmor(boolean a)
@@ -40,7 +43,7 @@ public class Assets
 			player = no_armor;
 		}
 
-		// neccessary because position is only initalized the first-used Player sprite
+		// neccessary because position is only initalized for the first-used armor variant
 		player.spriteRow = row;
 		player.spriteCol = col;
 	}
@@ -77,6 +80,10 @@ public class Assets
 			else if(line.startsWith("<player no_armor"))
 			{
 				no_armor.add(Sprite.scanSprite(sc));	
+			}
+			else if(line.startsWith("<map"))
+			{
+				mapSprite.add(Sprite.scanSprite(sc));
 			}
 		}
 		if(sc != null) { sc.close(); sc = null; }
