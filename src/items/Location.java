@@ -3,11 +3,21 @@ import utility.*;
 
 public abstract class Location
 {
-	public boolean cleared;
+	protected boolean cleared;
 
 	protected Location()
 	{
 		cleared = false;
+	}
+
+	public boolean isCleared()
+	{
+		return cleared;
+	}
+
+	public void clear()
+	{
+		if(!cleared)cleared = true;
 	}
 
 	@Override

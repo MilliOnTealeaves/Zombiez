@@ -2,11 +2,16 @@ package items;
 
 public class SupplyPoint extends Location
 {
-	public final Item item;
+	private final Item item;
 
 	public SupplyPoint()
 	{
 		super();
 		item = Item.getRandomItem();
+	}
+	
+	public Item getItem()
+	{
+		return item;
 	}
 }

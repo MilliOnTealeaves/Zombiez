@@ -1,6 +1,7 @@
 package entities;
 
-import java.util.ArrayList;
+import java.util.*;
+
 import animation.*;
 import items.*;
 
@@ -24,7 +25,10 @@ public class Player extends Entity
 		critDamage = 1.75;
 	}
 
-	
+	public void addToInventory(Item i)
+	{
+		if(i!=null) inventory.add(i);
+	}
 
 	public void addArmor(int amount)
 	{
@@ -83,23 +87,31 @@ public class Player extends Entity
 	{
 		if(index >= inventory.size()) return false;
 		
-		if(inventory.get(index) instanceof Upgrade u && upgrades.size()<4)
+		if(inventory.get(index) instanceof CritUpgrade u && upgrades.size() < 4)
 		{
 			critRate += u.critBoost;
-			attack += u.atkBoost;
-			upgrades.add(u);
+			upgrades.add(new Upgrade(u));
 			inventory.remove(index);
 			return true;
 		}
-		if(inventory.get(index) instanceof Armor a)
+		else if(inventory.get(index) instanceof AtkUpgrade u && upgrades.size() < 4)
+		{
+			attack += u.atkBoost;
+			upgrades.add(new Upgrade(u));
+			inventory.remove(index);
+			return true;
+		}
+		else if(inventory.get(index) instanceof Armor a)
 		{
 			addArmor(a.armorPoints);
 			inventory.remove(index);
+			return true;
 		}
-		if(inventory.get(index) instanceof HealthPack h)
+		else if(inventory.get(index) instanceof HealthPack h)
 		{
 			heal(h.healing);
 			inventory.remove(index);
+			return true;
 		}
 		return false;
 	}
@@ -115,5 +127,20 @@ public class Player extends Entity
 	public ArrayList<Item> getInventory()
 	{
 		return inventory;
+	}
+
+	public HashMap<String, Integer> getStats()
+	{
+		HashMap<String, Integer> stats = new HashMap<String, Integer>();
+		stats.put("Health", health);
+		stats.put("Armor", armorPoints);
+		stats.put("Attack", attack);
+		stats.put("Crit Rate", (int)(critRate*100));
+		return stats;
+	}
+
+	public ArrayList<Upgrade> getUpgrades()
+	{
+		return upgrades;
 	}
 }

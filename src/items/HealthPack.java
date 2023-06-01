@@ -5,6 +5,12 @@ public class HealthPack extends Item
 {
 	public HealthPack ()
 	{
-		super(Utility.varianceInt(15, 0.8), 0, 0, 0);
+		super(Utility.varianceInt(35, 0.8), 0, 0, 0);
+	}
+
+	@Override
+	public String toString()
+	{
+		return "Health Pack: " + healing;
 	}
 }

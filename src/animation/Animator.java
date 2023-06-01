@@ -1,7 +1,9 @@
 package animation;
 import entities.*;
 import utility.*;
-import items.Location;
+import items.*;
+import java.util.HashMap;
+
 public class Animator
 {
 	private int animationSpeed;
@@ -22,8 +24,8 @@ public class Animator
 		
 		Utility.top = top;
 		Utility.left = left;
-		Utility.rows = 16;
-		Utility.cols = 72;
+		Utility.rows = 14;
+		Utility.cols = 79;
 
 		if(mapV <= a.map.numFrames) mapVariant = mapV;
 		else mapVariant = 0;
@@ -54,38 +56,6 @@ public class Animator
 		}
 	}
 
-	public void testAnimations()
-	{
-		Zombie z = new Zombie();
-		Player p = new Player();
-		
-		drawHealthBar(z, top+16, left+6);
-		drawHealthBar(p, top+16, left+50);
-
-		zombieAttack();
-		z.attack(p);
-		drawHealthBar(z, top+16, left+6);
-		drawHealthBar(p, top+16, left+50);
-
-		Utility.wait(1000);
-
-		a.setPlayerArmor(true);
-		zombieAttack();
-		Utility.wait(1000);
-
-		p.takeDamage(59);
-
-		drawHealthBar(z, top+16, left+6);
-		drawHealthBar(p, top+16, left+50);
-
-		a.setPlayerArmor(false);
-		playerAttack();
-		Utility.wait(1000);
-		
-		a.setPlayerArmor(true);
-		playerAttack();
-	}
-
 	// Animates a player attack on a zombie
 	public void playerAttack()
 	{
@@ -97,7 +67,6 @@ public class Animator
 
 			Utility.wait(animationSpeed/2);
 		}
-
 		for(int i = 0; i < 5; i++)
 		{
 			Utility.clearConsole();
@@ -108,7 +77,6 @@ public class Animator
 
 			Utility.wait(animationSpeed/3*2);
 		}
-
 		Utility.clearConsole();
 		a.zombie.spriteRow -= 1;
 		a.zombie.drawSprite(0);
@@ -187,9 +155,10 @@ public class Animator
 		Utility.writePos(e.getName(), row+2, col);
 	}
 
-	public void drawMap()
+	public void drawMap(int pRow, int pCol)
 	{
-		a.map.spriteRow = top + 1;
+		Utility.clearConsole(20, 74, top-1, left);
+		a.map.spriteRow = top - 1;
 		a.map.spriteCol = left + 4;
 		a.map.drawSprite(mapVariant);
 
@@ -198,9 +167,51 @@ public class Animator
 			for(int j = 0; j < mapRef[0].length; j++)
 			{
 				String print = mapRef[i][j].toString();
-				if(j < mapRef[0].length - 1) print += "|";
-				Utility.writePos( print, top+i+3, left+j*3+6);
+				
+				Utility.writePos( print, top+2+i*3, left+j*6+8);
 			}
 		}
+		Utility.writePos( "<>", top+2+pRow*3, left+pCol*6+8);
+	}
+
+	public void drawInventory(Player p)
+	{
+		Utility.clearConsole(16, 27, top, left+46);
+		Utility.selectTextStyle(Style.UNDERLINE, Style.TEXT, Style.WHITE);
+		Utility.writePos("Inventory" + Utility.RESET, top, left+46);
+		int iter = 0;
+		for(Item i : p.getInventory())
+		{
+			Utility.writePos(String.format("%d: %s", iter+1, i.toString()), top+1+iter, left+46);
+			iter++;
+		}
+		int iter2 = 0;
+		Utility.selectTextStyle(Style.UNDERLINE, Style.TEXT, Style.WHITE);
+		Utility.writePos("Upgrades" + Utility.RESET, top+iter+2, left+46);
+		for(Upgrade u : p.getUpgrades())
+		{
+			Utility.writePos(String.format("%d: %s", iter2+1, u.toString()), top+3+iter, left+46);
+			iter++;
+		}
+		int portraitFrame = 0;
+		if(!p.armor) portraitFrame = 0;
+		a.portrait.drawSprite(portraitFrame, top+10, left+51);
+
+	}
+	public void drawStats(Player p)
+	{
+		Utility.clearConsole(16, 27, top, left+46);
+		Utility.selectTextStyle(Style.UNDERLINE, Style.TEXT, Style.WHITE);
+		Utility.writePos("Stats" + Utility.RESET, top, left+46);
+		HashMap<String, Integer> s = p.getStats();
+		int iter = 0;
+		for (String a : s.keySet())
+		{
+			Utility.writePos(String.format("%s: %d", a, s.get(a)), top+1+iter, left+46);
+			iter++;
+		}
+		int portraitFrame = 0;
+		if(!p.armor) portraitFrame = 0;
+		a.portrait.drawSprite(portraitFrame, top+10, left+51);
 	}
 }

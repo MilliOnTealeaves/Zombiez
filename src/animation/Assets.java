@@ -55,6 +55,7 @@ public class Assets
 		armor = new Sprite();
 		no_armor = new Sprite();
 		bulletSprite = new Sprite();
+		mapSprite = new Sprite();
 
 		InputStream stream = null;
 		Scanner sc = null;

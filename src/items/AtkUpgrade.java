@@ -7,4 +7,10 @@ public class AtkUpgrade extends Item
 	{
 		super(0, Utility.varianceInt(15, 0.3), 0, 0);
 	}
+
+	@Override
+	public String toString()
+	{
+		return "Attack Upgrade: " + atkBoost;
+	}
 }

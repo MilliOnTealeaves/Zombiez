@@ -16,18 +16,16 @@ public abstract class Item
 
 	public static Item getRandomItem()
 	{
-		int itemType = (int)(Math.random()*6);
+		int itemType = (int)(Math.random()*4);
 		switch (itemType)
 		{
 			case 0: 
-			case 1: 
 				return new HealthPack();
-			case 2:
-			case 3:
+			case 1:
 				return new Armor();
-			case 4:
+			case 2:
 				return new CritUpgrade();
-			case 5:
+			case 3:
 				return new AtkUpgrade();
 			
 			default: return new HealthPack();
