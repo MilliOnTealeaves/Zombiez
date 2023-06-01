@@ -23,7 +23,7 @@ public class Main
 			String answer = System.console().readLine("Done? [Y/N]: ");
 			if(answer.toLowerCase().equals("y")) break;
 		}
-		Utility.clearConsole(height-2, width-2, top+1, left+1);
+		Utility.clearConsole(height-1, width-2, top+1, left+1);
 		Utility.selectTextStyle(Style.UNDERLINE, Style.INTENSE, Style.WHITE);
 		Utility.writePos("Start the game?" + Utility.RESET, top+13, left+20);
 		String play = System.console().readLine("[Y/N]: ");
@@ -50,13 +50,13 @@ public class Main
 
 	private static void win()
 	{
-		Utility.clearConsole(height-2, width-2, top+1, left+1);
+		Utility.clearConsole(height-1, width-2, top+1, left+1);
 		Utility.selectTextStyle(Style.UNDERLINE, Style.INTENSE, Style.GREEN);
 		Utility.writePos("You won!" + Utility.RESET, top+13, left+20);
 	}
 	private static void lose()
 	{
-		Utility.clearConsole(height-2, width-2, top+1, left+1);
+		Utility.clearConsole(height-1, width-2, top+1, left+1);
 		Utility.selectTextStyle(Style.UNDERLINE, Style.INTENSE, Style.RED);
 		Utility.writePos("You lost :(" + Utility.RESET, top+13, left+20);
 	}

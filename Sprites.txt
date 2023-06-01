@@ -21,6 +21,7 @@
   _-""      ""-_
  /" ,        , "\
  | /|        |\ |
+ \ \|        |/ /
 <endsprite>
 
 <player no_armor 0>

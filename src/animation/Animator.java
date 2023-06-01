@@ -24,7 +24,7 @@ public class Animator
 		
 		Utility.top = top;
 		Utility.left = left;
-		Utility.rows = 14;
+		Utility.rows = 16;
 		Utility.cols = 79;
 
 		if(mapV <= a.map.numFrames) mapVariant = mapV;
@@ -159,7 +159,7 @@ public class Animator
 	{
 		Utility.clearConsole(20, 74, top-1, left);
 		a.map.spriteRow = top - 1;
-		a.map.spriteCol = left + 4;
+		a.map.spriteCol = left + 3;
 		a.map.drawSprite(mapVariant);
 
 		for(int i = 0; i < mapSize; i++)
@@ -168,50 +168,45 @@ public class Animator
 			{
 				String print = mapRef[i][j].toString();
 				
-				Utility.writePos( print, top+2+i*3, left+j*6+8);
+				Utility.writePos( print, top+2+i*3, left+j*6+7);
 			}
 		}
-		Utility.writePos( "<>", top+2+pRow*3, left+pCol*6+8);
+		Utility.writePos( "<>", top+2+pRow*3, left+pCol*6+7);
 	}
 
 	public void drawInventory(Player p)
 	{
-		Utility.clearConsole(16, 27, top, left+46);
+		Utility.clearConsole(16, 30, top, left+45);
 		Utility.selectTextStyle(Style.UNDERLINE, Style.TEXT, Style.WHITE);
-		Utility.writePos("Inventory" + Utility.RESET, top, left+46);
+		Utility.writePos("Inventory" + Utility.RESET, top, left+45);
 		int iter = 0;
 		for(Item i : p.getInventory())
 		{
-			Utility.writePos(String.format("%d: %s", iter+1, i.toString()), top+1+iter, left+46);
+			Utility.writePos(String.format("%d: %s", iter+1, i.toString()), top+1+iter, left+45);
 			iter++;
 		}
 		int iter2 = 0;
 		Utility.selectTextStyle(Style.UNDERLINE, Style.TEXT, Style.WHITE);
-		Utility.writePos("Upgrades" + Utility.RESET, top+iter+2, left+46);
+		Utility.writePos("Upgrades" + Utility.RESET, top+iter+2, left+45);
 		for(Upgrade u : p.getUpgrades())
 		{
-			Utility.writePos(String.format("%d: %s", iter2+1, u.toString()), top+3+iter, left+46);
+			Utility.writePos(String.format("%d: %s", iter2+1, u.toString()), top+3+iter, left+45);
 			iter++;
+			iter2++;
 		}
-		int portraitFrame = 0;
-		if(!p.armor) portraitFrame = 0;
-		a.portrait.drawSprite(portraitFrame, top+10, left+51);
-
-	}
-	public void drawStats(Player p)
-	{
-		Utility.clearConsole(16, 27, top, left+46);
 		Utility.selectTextStyle(Style.UNDERLINE, Style.TEXT, Style.WHITE);
-		Utility.writePos("Stats" + Utility.RESET, top, left+46);
+
+		Utility.writePos("Stats" + Utility.RESET, top+15, left+45);
 		HashMap<String, Integer> s = p.getStats();
-		int iter = 0;
+		int iter3 = 0;
 		for (String a : s.keySet())
 		{
-			Utility.writePos(String.format("%s: %d", a, s.get(a)), top+1+iter, left+46);
-			iter++;
+			Utility.writePos(String.format("%s: %d", a, s.get(a)), top+16+iter3, left+45);
+			if(iter3 == 3) System.out.print("%");
+			iter3++;
 		}
 		int portraitFrame = 0;
-		if(!p.armor) portraitFrame = 0;
-		a.portrait.drawSprite(portraitFrame, top+10, left+51);
+		if(!p.armor) portraitFrame = 1;
+		a.portrait.drawSprite(portraitFrame, top+14, left+60);
 	}
 }

@@ -49,8 +49,11 @@ public class Game
 
 	public boolean run()
 	{
+		int oldRow; int oldCol;
 		while(true)
 		{
+			oldRow = playerRow;
+			oldCol = playerCol;
 			message = "What do you want to do?";
 			anim.drawMap(playerRow, playerCol);
 			anim.drawInventory(player);
@@ -66,9 +69,21 @@ public class Game
 				}
 				if(map[playerRow][playerCol] instanceof EncPoint ep)
 				{
-					battle(ep.enemy);
-					if(!player.alive) return false;
-					map[playerRow][playerCol].clear();
+					anim.drawMap(playerRow, playerCol);
+					anim.drawInventory(player);
+					message = Utility.getColorCode(Style.UNDERLINE, Style.BACKGROUND, Style.RED) + "Encountered " + ep.enemy.getName() + ". Fight?" + Utility.RESET;
+					String a = getInput();
+					if (a.toLowerCase().equals("y"))
+					{
+						battle(ep.enemy);
+						if(!player.alive) return false;
+						map[playerRow][playerCol].clear();
+					}
+					else
+					{
+						playerRow = oldRow;
+						playerCol = oldCol;
+					}
 				}
 			}
 		}
@@ -77,6 +92,7 @@ public class Game
 	private void battle(Entity enemy)
 	{
 		Utility.clearConsole(26, 72, top, left);
+		Utility.clearConsole(6, 8, top+20, left+70);
 		Utility.writePos("BATTLE!", 26, 9);
 
 		int playerTicks = 0;
@@ -109,6 +125,18 @@ public class Game
 		anim.drawHealthBar(enemy);
 		anim.drawHealthBar(player);
 		if(player.alive) player.heal(35);
+		double rand = Math.random();
+		Item i = Item.getRandomItem();
+		switch (enemy.getName())
+		{
+			default: break;
+			case "Buff Tyler":
+				player.addToInventory(i); break;
+			case "Don Machiavelli":
+				if(rand > 0.4) player.addToInventory(i); break;
+			case "Speedy Zombzalez":
+				if(rand > 0.7) player.addToInventory(i); break;
+		}
 		message = "Press ENTER to proceed";
 		getInput();
 	}
@@ -134,22 +162,12 @@ public class Game
 					else { message = "Invalid direction"; return false; }
 
 				case "north": case "n": 
-					if(playerRow > 0) { playerCol --; return true; }
+					if(playerRow > 0) { playerRow --; return true; }
 					else { message = "Invalid direction"; return false; }
 				
 				default:
 					message = "Invalid direction";
 			}
-			return false;
-		}
-		else if(a.equals("stats"))
-		{
-			anim.drawStats(player);
-			return false;
-		}
-		else if(a.equals("inventory"))
-		{
-			anim.drawInventory(player);
 			return false;
 		}
 		else if(a.startsWith("use"))
@@ -177,13 +195,17 @@ public class Game
 			int index = -1;
 			try
 			{
-				index = Integer.parseInt(a.substring(4)) - 1;
-				if (index < 3) player.removeUpgrade(index);
-				else message = a.substring(4) + " is not a valid item number";
+				index = Integer.parseInt(a.substring(7)) - 1;
+				if (index < 3)
+				{
+					player.removeUpgrade(index);
+					anim.drawInventory(player);
+				}
+				else message = a.substring(7) + " is not a valid item number";
 			}
 			catch(NumberFormatException n)
 			{
-				message = a.substring(4) + " is not a valid item number";
+				message = a.substring(7) + " is not a valid item number";
 				return false;
 			}
 		}
@@ -196,7 +218,7 @@ public class Game
 
 	private String getInput()
 	{
-		Utility.clearConsole(3, 60, 26, 9);
+		Utility.clearConsole(3, 40, 26, 9);
 		Utility.writePos(message, 26, 9);
 		Utility.writePos("> ", 28, 9);
 		return sc.nextLine().toLowerCase();

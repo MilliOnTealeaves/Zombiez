@@ -98,7 +98,7 @@ class BuffTyler extends Zombie
 {
 	protected BuffTyler()
 	{
-		super(500, 75, 0.3, 80);
+		super(450, 60, 0.3, 80);
 		name = "Buff Tyler";
 	}
 }

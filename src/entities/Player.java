@@ -119,8 +119,11 @@ public class Player extends Entity
 	public boolean removeUpgrade(int index)
 	{
 		if(index >= upgrades.size()) return false;
-		
-		inventory.add(upgrades.remove(index));
+		Upgrade removedUpgrade = upgrades.remove(index);
+		if(removedUpgrade.critBoost > 0)
+			inventory.add(new CritUpgrade(removedUpgrade));
+		else
+			inventory.add(new AtkUpgrade(removedUpgrade));
 		return true;
 	}
 
